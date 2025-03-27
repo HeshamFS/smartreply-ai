@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SmartReply AI</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="title">
+        <img src="icons/icon.svg" alt="SmartReply AI" width="24" height="24">
+        <h1>SmartReply AI</h1>
+      </div>
+      <div class="header-buttons">
+        <button id="history-btn" class="icon-btn" title="Response History">
+          <img src="icons/history.svg" alt="History" width="20" height="20">
+        </button>
+        <button id="settings-btn" class="icon-btn" title="Settings">
+          <img src="icons/settings.svg" alt="Settings" width="20" height="20">
+        </button>
+      </div>
+    </div>
+    
+    <!-- Tab Navigation -->
+    <div class="tabs-container">
+      <div class="tabs">
+        <div class="tab active" data-tab="response-tab">
+          <i class="fas fa-reply"></i> Email Response
+        </div>
+        <div class="tab" data-tab="sentiment-tab">
+          <i class="fas fa-chart-pie"></i> Sentiment Analysis
+        </div>
+        <div class="tab" data-tab="summary-tab">
+          <i class="fas fa-compress-alt"></i> Summarization
+        </div>
+        <div class="tab" data-tab="translate-tab">
+          <i class="fas fa-language"></i> Translation
+        </div>
+      </div>
+    </div>
+    
+    <div class="content">
+      <div id="status" class="hidden"></div>
+      
+      <!-- Email Response Tab -->
+      <div class="tab-content active" id="response-tab">
+        <div class="section">
+          <h2>Response Options</h2>
+          
+          <div class="option-row">
+            <div class="option-group compact">
+              <label>Style:</label>
+              <div class="icon-selector style-selector">
+                <div class="icon-option" data-value="professional" title="Professional and formal">
+                  <img src="icons/style-professional.svg" alt="Professional" width="24" height="24">
+                </div>
+                <div class="icon-option" data-value="friendly" title="Friendly and conversational">
+                  <img src="icons/style-friendly.svg" alt="Friendly" width="24" height="24">
+                </div>
+                <div class="icon-option" data-value="concise" title="Brief and to-the-point">
+                  <img src="icons/style-concise.svg" alt="Concise" width="24" height="24">
+                </div>
+                <div class="icon-option" data-value="detailed" title="Detailed and comprehensive">
+                  <img src="icons/style-detailed.svg" alt="Detailed" width="24" height="24">
+                </div>
+                <select id="response-style" class="hidden">
+                  <option value="professional">Professional</option>
+                  <option value="friendly">Friendly</option>
+                  <option value="concise">Concise</option>
+                  <option value="detailed">Detailed</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="option-group compact">
+              <label>Length:</label>
+              <div class="icon-selector length-selector">
+                <div class="icon-option" data-value="short" title="Brief, to-the-point (1-2 paragraphs)">
+                  <img src="icons/length-short.svg" alt="Short" width="24" height="24">
+                </div>
+                <div class="icon-option" data-value="medium" title="Standard length (2-3 paragraphs)">
+                  <img src="icons/length-medium.svg" alt="Medium" width="24" height="24">
+                </div>
+                <div class="icon-option" data-value="long" title="Detailed, comprehensive (4+ paragraphs)">
+                  <img src="icons/length-long.svg" alt="Long" width="24" height="24">
+                </div>
+                <select id="response-length" class="hidden">
+                  <option value="medium">Medium</option>
+                  <option value="short">Short</option>
+                  <option value="long">Long</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Style and Length Combination Indicator -->
+          <div class="style-length-combination" id="style-length-combo">
+            <i class="fas fa-link"></i>
+            <span>You selected: <strong>Professional, Medium</strong> combination</span>
+          </div>
+          
+          <div class="option-group">
+            <label>Content Controls:</label>
+            <div class="content-controls-grid">
+              <div class="checkbox-item">
+                <input type="checkbox" id="include-action-items" checked>
+                <label for="include-action-items">Action Items</label>
+                <i class="fas fa-info-circle tooltip-icon" title="Highlight next steps or actions needed"></i>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="address-questions" checked>
+                <label for="address-questions">Address Questions</label>
+                <i class="fas fa-info-circle tooltip-icon" title="Identify and answer questions from the original email"></i>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="use-bullet-points">
+                <label for="use-bullet-points">Bullet Points</label>
+                <i class="fas fa-info-circle tooltip-icon" title="Format response with bullet points where appropriate"></i>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="include-sentiment">
+                <label for="include-sentiment">Sentiment Analysis</label>
+                <i class="fas fa-info-circle tooltip-icon" title="Analyze and respond to the emotional tone of the original email"></i>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="suggest-followup">
+                <label for="suggest-followup">Follow-up Schedule</label>
+                <i class="fas fa-info-circle tooltip-icon" title="Include appropriate follow-up timing suggestions based on email content"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="option-group">
+            <label>Tone Adjustments:</label>
+            <div class="tone-sliders">
+              <div class="slider-row">
+                <div class="slider-item">
+                  <label for="formality-slider">Formality:</label>
+                  <div class="slider-container">
+                    <span class="slider-label">Casual</span>
+                    <input type="range" id="formality-slider" min="1" max="5" value="3">
+                    <span class="slider-label">Formal</span>
+                  </div>
+                </div>
+                <div class="slider-item">
+                  <label for="enthusiasm-slider">Enthusiasm:</label>
+                  <div class="slider-container">
+                    <span class="slider-label">Reserved</span>
+                    <input type="range" id="enthusiasm-slider" min="1" max="5" value="3">
+                    <span class="slider-label">Enthusiastic</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>Additional Context <span class="optional">(Optional)</span></h2>
+          <textarea id="context-input" placeholder="Add any specific instructions or context for the AI..."></textarea>
+        </div>
+        
+        <div class="section">
+          <h2>Generated Response</h2>
+          <div class="response-container">
+            <div class="response-variants-header">
+              <div class="variants-tabs" id="variants-tabs">
+                <!-- Variant tabs will be added here dynamically -->
+                <div class="variant-tab active" data-variant="1">Variant 1</div>
+              </div>
+              <div class="variants-actions">
+                <button id="generate-variants-btn" class="icon-btn" title="Generate Variants">
+                  <i class="fas fa-random"></i> Generate Variants
+                </button>
+              </div>
+            </div>
+            <div id="response-content" class="response-content">
+              <div class="empty-state">
+                <i class="fas fa-robot"></i>
+                <p>Click "Generate Response" to create an email reply</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer">
+          <button id="generate-btn" class="primary-btn">
+            <i class="fas fa-magic"></i> Generate Response
+          </button>
+          <div class="action-buttons">
+            <button id="copy-btn" class="secondary-btn" disabled>
+              <i class="fas fa-copy"></i> Copy
+            </button>
+            <button id="insert-btn" class="secondary-btn" disabled>
+              <i class="fas fa-reply"></i> Reply
+            </button>
+            <button id="insert-all-btn" class="secondary-btn" disabled>
+              <i class="fas fa-reply-all"></i> Reply All
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sentiment Analysis Tab -->
+      <div class="tab-content" id="sentiment-tab">
+        <div class="section">
+          <h2>Email Sentiment Analysis</h2>
+          <p class="description">Analyze the emotional tone and key sentiments in the email to better understand the sender's intent and emotional state.</p>
+          
+          <div class="sentiment-options">
+            <div class="option-group">
+              <label>Analysis Depth:</label>
+              <select id="sentiment-depth">
+                <option value="basic">Basic Analysis</option>
+                <option value="detailed" selected>Detailed Analysis</option>
+                <option value="comprehensive">Comprehensive Analysis</option>
+              </select>
+            </div>
+            
+            <div class="option-group">
+              <label>Focus Areas:</label>
+              <div class="checkbox-grid">
+                <div class="checkbox-item">
+                  <input type="checkbox" id="detect-emotions" checked>
+                  <label for="detect-emotions">Emotional Tone</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="detect-urgency" checked>
+                  <label for="detect-urgency">Urgency Level</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="detect-formality" checked>
+                  <label for="detect-formality">Formality Level</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="detect-subtext" checked>
+                  <label for="detect-subtext">Implied Subtext</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="sentiment-visualization-container">
+            <div id="sentiment-visualization" class="sentiment-visualization">
+              <div class="empty-state">
+                <i class="fas fa-chart-pie"></i>
+                <p>Click "Analyze Sentiment" to visualize the email's emotional tone</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="sentiment-details-container">
+            <div id="sentiment-details" class="sentiment-details">
+              <!-- Sentiment details will be populated here -->
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer">
+          <button id="analyze-sentiment-btn" class="primary-btn">
+            <i class="fas fa-chart-pie"></i> Analyze Sentiment
+          </button>
+          <div class="action-buttons">
+            <button id="export-sentiment-btn" class="secondary-btn" disabled>
+              <i class="fas fa-download"></i> Export Analysis
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Summarization Tab -->
+      <div class="tab-content" id="summary-tab">
+        <div class="section">
+          <h2>Email Summarization</h2>
+          <p class="description">Generate concise summaries of long email threads or complex messages to quickly understand the key points.</p>
+          
+          <div class="summary-options">
+            <div class="option-group">
+              <label>Summary Type:</label>
+              <select id="summary-type">
+                <option value="bullet">Bullet Points</option>
+                <option value="paragraph" selected>Paragraph</option>
+                <option value="structured">Structured (Topics & Details)</option>
+              </select>
+            </div>
+            
+            <div class="option-group">
+              <label>Summary Length:</label>
+              <select id="summary-length">
+                <option value="very-short">Very Short (1-2 sentences)</option>
+                <option value="short">Short (3-4 sentences)</option>
+                <option value="medium" selected>Medium (1 paragraph)</option>
+                <option value="detailed">Detailed (2-3 paragraphs)</option>
+              </select>
+            </div>
+            
+            <div class="option-group">
+              <label>Focus Areas:</label>
+              <div class="checkbox-grid">
+                <div class="checkbox-item">
+                  <input type="checkbox" id="extract-key-points" checked>
+                  <label for="extract-key-points">Key Points</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="extract-action-items" checked>
+                  <label for="extract-action-items">Action Items</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="extract-questions" checked>
+                  <label for="extract-questions">Questions</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="extract-deadlines">
+                  <label for="extract-deadlines">Deadlines</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="summary-container">
+            <div id="summary-content" class="summary-content">
+              <div class="empty-state">
+                <i class="fas fa-compress-alt"></i>
+                <p>Click "Generate Summary" to create a concise summary of the email</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer">
+          <button id="generate-summary-btn" class="primary-btn">
+            <i class="fas fa-compress-alt"></i> Generate Summary
+          </button>
+          <div class="action-buttons">
+            <button id="copy-summary-btn" class="secondary-btn" disabled>
+              <i class="fas fa-copy"></i> Copy
+            </button>
+            <button id="insert-summary-btn" class="secondary-btn" disabled>
+              <i class="fas fa-reply"></i> Insert in Reply
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Translation Tab -->
+      <div class="tab-content" id="translate-tab">
+        <div class="section">
+          <h2>Email Translation</h2>
+          <p class="description">Translate email content to and from different languages with advanced language detection.</p>
+          
+          <div class="translation-options">
+            <div class="option-group">
+              <label>Source Language:</label>
+              <select id="source-language">
+                <option value="auto" selected>Auto-detect</option>
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="it">Italian</option>
+                <option value="pt">Portuguese</option>
+                <option value="ru">Russian</option>
+                <option value="zh">Chinese</option>
+                <option value="ja">Japanese</option>
+                <option value="ko">Korean</option>
+                <option value="ar">Arabic</option>
+                <option value="hi">Hindi</option>
+              </select>
+            </div>
+            
+            <div class="option-group">
+              <label>Target Language:</label>
+              <select id="target-language">
+                <option value="en" selected>English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="it">Italian</option>
+                <option value="pt">Portuguese</option>
+                <option value="ru">Russian</option>
+                <option value="zh">Chinese</option>
+                <option value="ja">Japanese</option>
+                <option value="ko">Korean</option>
+                <option value="ar">Arabic</option>
+                <option value="hi">Hindi</option>
+              </select>
+            </div>
+            
+            <div class="option-group">
+              <label>Translation Options:</label>
+              <div class="checkbox-grid">
+                <div class="checkbox-item">
+                  <input type="checkbox" id="preserve-formatting" checked>
+                  <label for="preserve-formatting">Preserve Formatting</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="formal-language" checked>
+                  <label for="formal-language">Formal Language</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="include-original">
+                  <label for="include-original">Include Original Text</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="cultural-adaptation">
+                  <label for="cultural-adaptation">Cultural Adaptation</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="translation-container">
+            <div id="translation-content" class="translation-content">
+              <div class="empty-state">
+                <i class="fas fa-language"></i>
+                <p>Click "Translate Email" to translate the content</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer">
+          <button id="translate-btn" class="primary-btn">
+            <i class="fas fa-language"></i> Translate Email
+          </button>
+          <div class="action-buttons">
+            <button id="copy-translation-btn" class="secondary-btn" disabled>
+              <i class="fas fa-copy"></i> Copy
+            </button>
+            <button id="insert-translation-btn" class="secondary-btn" disabled>
+              <i class="fas fa-reply"></i> Insert in Reply
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="history.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SmartReply AI - History & Templates</title>
+  <link rel="stylesheet" href="history.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="title">
+        <img src="icons/icon.svg" alt="SmartReply AI" width="24" height="24">
+        <h1>SmartReply AI - History & Templates</h1>
+      </div>
+      <div class="tabs">
+        <button id="history-tab" class="tab-btn active">
+          <img src="icons/history.svg" alt="History" width="18" height="18"> Response History
+        </button>
+        <button id="templates-tab" class="tab-btn">
+          <img src="icons/template.svg" alt="Templates" width="18" height="18"> Templates
+        </button>
+      </div>
+    </div>
+    
+    <div class="content">
+      <!-- History Tab Content -->
+      <div id="history-content" class="tab-content active">
+        <div class="toolbar">
+          <div class="search-box">
+            <input type="text" id="history-search" placeholder="Search responses...">
+            <button id="history-search-btn">
+              <img src="icons/search.svg" alt="Search" width="16" height="16">
+            </button>
+          </div>
+          <div class="filters">
+            <div class="filter-select">
+              <select id="category-filter">
+                <option value="">All Categories</option>
+                <option value="business">Business</option>
+                <option value="personal">Personal</option>
+                <option value="follow-up">Follow-up</option>
+                <option value="thank-you">Thank You</option>
+                <option value="introduction">Introduction</option>
+                <option value="request">Request</option>
+                <option value="scheduling">Scheduling</option>
+                <option value="inquiry">Inquiry</option>
+                <option value="informational">Informational</option>
+                <option value="problem-solving">Problem Solving</option>
+                <option value="general">General</option>
+              </select>
+            </div>
+            
+            <div class="filter-select">
+              <select id="style-filter">
+                <option value="">All Styles</option>
+                <option value="professional">Professional</option>
+                <option value="friendly">Friendly</option>
+                <option value="concise">Concise</option>
+                <option value="detailed">Detailed</option>
+              </select>
+            </div>
+            
+            <div class="filter-select">
+              <select id="length-filter">
+                <option value="">All Lengths</option>
+                <option value="short">Short</option>
+                <option value="medium">Medium</option>
+                <option value="long">Long</option>
+              </select>
+            </div>
+            
+            <button id="advanced-filter-btn" class="filter-btn secondary">
+              <img src="icons/filter.svg" alt="Filter" width="14" height="14"> Filters
+            </button>
+            
+            <button id="clear-history-btn" class="filter-btn danger">
+              <img src="icons/trash.svg" alt="Clear" width="14" height="14"> Clear
+            </button>
+          </div>
+        </div>
+        
+        <!-- Advanced Filter Panel -->
+        <div id="advanced-filter-panel" class="advanced-filter-panel" style="display: none;">
+          <div class="filter-section">
+            <h3>Tags</h3>
+            <div class="tag-filters" id="tag-filters">
+              <span class="tag-filter" data-tag="urgent">Urgent</span>
+              <span class="tag-filter" data-tag="action-required">Action Required</span>
+              <span class="tag-filter" data-tag="question">Question</span>
+              <span class="tag-filter" data-tag="meeting">Meeting</span>
+              <span class="tag-filter" data-tag="feedback">Feedback</span>
+              <span class="tag-filter" data-tag="deadline">Deadline</span>
+              <span class="tag-filter" data-tag="collaboration">Collaboration</span>
+              <span class="tag-filter" data-tag="report">Report</span>
+              <span class="tag-filter" data-tag="approval">Approval</span>
+              <span class="tag-filter" data-tag="fyi">FYI</span>
+            </div>
+          </div>
+          
+          <div class="filter-section">
+            <h3>Date Range</h3>
+            <div class="date-filters">
+              <div class="date-filter">
+                <label for="start-date">From:</label>
+                <input type="date" id="start-date">
+              </div>
+              <div class="date-filter">
+                <label for="end-date">To:</label>
+                <input type="date" id="end-date">
+              </div>
+            </div>
+          </div>
+          
+          <div class="filter-section">
+            <h3>AI Model</h3>
+            <div class="model-filters">
+              <select id="model-filter">
+                <option value="">All Models</option>
+                <option value="gemini">Gemini</option>
+                <option value="openai">OpenAI (O3-mini)</option>
+                <option value="gpt4o">OpenAI (GPT-4o)</option>
+                <option value="mistral">Mistral</option>
+                <option value="ollama">Ollama</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="filter-actions">
+            <button id="apply-filters-btn" class="primary-btn">Apply Filters</button>
+            <button id="reset-filters-btn" class="secondary-btn">Reset</button>
+          </div>
+        </div>
+        
+        <div class="history-layout">
+          <div class="history-sidebar">
+            <div class="history-list" id="history-list">
+              <!-- History items will be populated here -->
+              <div class="empty-state">
+                <img src="icons/inbox.svg" alt="Empty" width="32" height="32">
+                <p>No response history found</p>
+              </div>
+            </div>
+            
+            <div class="pagination">
+              <button id="prev-page" class="page-btn" disabled>
+                <img src="icons/arrow-left.svg" alt="Previous" width="14" height="14">
+              </button>
+              <span id="page-info">Page 1 of 1</span>
+              <button id="next-page" class="page-btn" disabled>
+                <img src="icons/arrow-right.svg" alt="Next" width="14" height="14">
+              </button>
+            </div>
+          </div>
+          
+          <div class="history-main">
+            <div class="history-detail" id="history-detail">
+              <div class="empty-state">
+                <img src="icons/envelope-open-text.svg" alt="Select" width="32" height="32">
+                <p>Select a response to view details</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Templates Tab Content -->
+      <div id="templates-content" class="tab-content">
+        <div class="toolbar">
+          <div class="search-box">
+            <input type="text" id="template-search" placeholder="Search templates...">
+            <button id="template-search-btn">
+              <img src="icons/search.svg" alt="Search" width="16" height="16">
+            </button>
+          </div>
+          <div class="filters">
+            <div class="filter-select">
+              <select id="template-category-filter">
+                <option value="">All Categories</option>
+                <option value="general">General</option>
+                <option value="business">Business</option>
+                <option value="personal">Personal</option>
+                <option value="follow-up">Follow-up</option>
+                <option value="thank-you">Thank You</option>
+                <option value="introduction">Introduction</option>
+                <option value="request">Request</option>
+                <option value="scheduling">Scheduling</option>
+              </select>
+            </div>
+            <button id="new-template-btn" class="filter-btn primary">
+              <img src="icons/add.svg" alt="New Template" width="14" height="14"> New Template
+            </button>
+          </div>
+        </div>
+        
+        <div class="templates-layout">
+          <div class="templates-sidebar">
+            <div class="templates-list" id="templates-list">
+              <!-- Template items will be populated here -->
+              <div class="empty-state">
+                <img src="icons/file.svg" alt="Empty" width="32" height="32">
+                <p>No templates found</p>
+              </div>
+            </div>
+            
+            <div class="pagination">
+              <button id="template-prev-page" class="page-btn" disabled>
+                <img src="icons/arrow-left.svg" alt="Previous" width="14" height="14">
+              </button>
+              <span id="template-page-info">Page 1 of 1</span>
+              <button id="template-next-page" class="page-btn" disabled>
+                <img src="icons/arrow-right.svg" alt="Next" width="14" height="14">
+              </button>
+            </div>
+          </div>
+          
+          <div class="templates-main">
+            <div class="template-detail" id="template-detail">
+              <div class="empty-state">
+                <img src="icons/file-alt.svg" alt="Select" width="32" height="32">
+                <p>Select a template to view or create a new one</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Template Editor Modal -->
+    <div id="template-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modal-title">Create New Template</h2>
+          <button id="close-modal" class="close-btn">
+            <img src="icons/close.svg" alt="Close" width="16" height="16">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="template-name">Template Name</label>
+            <input type="text" id="template-name" placeholder="Enter a name for this template">
+          </div>
+          
+          <div class="form-group">
+            <label for="template-category">Category</label>
+            <div class="filter-select">
+              <select id="template-category">
+                <option value="general">General</option>
+                <option value="business">Business</option>
+                <option value="personal">Personal</option>
+                <option value="follow-up">Follow-up</option>
+                <option value="thank-you">Thank You</option>
+                <option value="introduction">Introduction</option>
+                <option value="request">Request</option>
+                <option value="scheduling">Scheduling</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="template-content">Template Content</label>
+            <div class="template-help">
+              <p>Use variables in the format <code>{{variable_name}}</code> for dynamic content.</p>
+              <p>Example: <code>Dear {{recipient_name}},</code></p>
+            </div>
+            <textarea id="template-content" rows="10" placeholder="Enter your template content here..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label>Template Variables</label>
+            <div id="template-variables" class="template-variables">
+              <p class="no-variables">No variables detected. Add variables using the format {{variable_name}} in your template.</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="save-template-btn" class="filter-btn primary">
+            <img src="icons/save.svg" alt="Save" width="14" height="14"> Save Template
+          </button>
+          <button id="cancel-template-btn" class="filter-btn secondary">
+            <img src="icons/cancel.svg" alt="Cancel" width="14" height="14"> Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="history.js"></script>
+  <script src="history-ui.js"></script>
+</body>
+</html>

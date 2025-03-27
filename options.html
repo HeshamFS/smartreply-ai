@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SmartReply AI - Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4285f4;
+      --primary-hover: #3367d6;
+      --secondary-color: #5cb85c;
+      --secondary-hover: #4cae4c;
+      --text-color: #333;
+      --light-text: #666;
+      --border-color: #e0e0e0;
+      --background-color: #f9f9f9;
+      --card-background: #ffffff;
+      --success-color: #d4edda;
+      --success-text: #155724;
+      --error-color: #f8d7da;
+      --error-text: #721c24;
+      --warning-color: #fff3cd;
+      --warning-text: #856404;
+      --info-color: #e6f7ff;
+      --info-text: #1890ff;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      --border-radius: 8px;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: var(--card-background);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    
+    .header {
+      padding: 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 500;
+    }
+    
+    .content {
+      padding: 20px;
+    }
+    
+    .card {
+      background-color: var(--card-background);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    
+    .card-header {
+      padding: 15px 20px;
+      background-color: rgba(0, 0, 0, 0.02);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+    }
+    
+    .card-header .icon {
+      margin-right: 10px;
+      width: 24px;
+      height: 24px;
+    }
+    
+    .card-header h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    .card-body {
+      padding: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+    
+    input[type="text"]:focus, input[type="password"]:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+    
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 14px;
+      transition: border-color 0.2s;
+      min-height: 100px;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+    
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 14px;
+      transition: border-color 0.2s;
+      background-color: white;
+    }
+    
+    select:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+    
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s;
+    }
+    
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+    
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .checkbox-container input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    
+    .api-key-input {
+      position: relative;
+    }
+    
+    .toggle-visibility-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--light-text);
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .toggle-visibility-btn:hover {
+      color: var(--primary-color);
+    }
+    
+    .setting-group {
+      margin-bottom: 25px;
+    }
+    
+    .setting-description {
+      color: var(--light-text);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    
+    .fallback-model {
+      margin-bottom: 15px;
+    }
+    
+    .status-message {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+    
+    .status-success {
+      display: block;
+      background-color: var(--success-color);
+      color: var(--success-text);
+    }
+    
+    .status-error {
+      display: block;
+      background-color: var(--error-color);
+      color: var(--error-text);
+    }
+    
+    .status-info {
+      display: block;
+      background-color: var(--info-color);
+      color: var(--info-text);
+    }
+    
+    .status-warning {
+      display: block;
+      background-color: var(--warning-color);
+      color: var(--warning-text);
+    }
+    
+    .footer {
+      padding: 15px 20px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      color: var(--light-text);
+      font-size: 12px;
+    }
+    
+    .actions-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .primary-button {
+      background-color: var(--primary-color);
+      padding: 12px 20px;
+      font-weight: 500;
+    }
+    
+    .primary-button:hover {
+      background-color: var(--primary-hover);
+    }
+    
+    .small-button {
+      font-size: 12px;
+      padding: 6px 12px;
+      margin-top: 10px;
+    }
+    
+    .test-buttons-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <i class="fas fa-robot fa-2x"></i>
+      <h1>SmartReply AI - Settings</h1>
+    </div>
+    
+    <div class="content">
+      <section class="card">
+        <div class="card-header">
+          <i class="fas fa-cog icon"></i>
+          <h2>AI Model Selection</h2>
+        </div>
+        <div class="card-body">
+          <div class="setting-group">
+            <label for="model-select">Select AI Model:</label>
+            <select id="model-select" class="select-input">
+              <option value="gemini">Gemini Pro</option>
+              <option value="openai">OpenAI O3-mini</option>
+              <option value="gpt4o">OpenAI GPT-4o</option>
+              <option value="mistral">Mistral AI</option>
+              <option value="ollama">Ollama (Local LLM)</option>
+            </select>
+            <p class="setting-description">Choose which AI model to use for generating responses</p>
+          </div>
+          
+          <div class="setting-group">
+            <label for="reasoning-effort">Reasoning Effort (for O3-mini only):</label>
+            <select id="reasoning-effort" class="select-input" data-show-for-model="openai">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+            <p class="setting-description">
+              Control the reasoning effort for OpenAI O3-mini model (higher = more thorough but slower)
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      <section class="card">
+        <div class="card-header">
+          <i class="fas fa-shield-alt icon"></i>
+          <h2>API Keys</h2>
+        </div>
+        <div class="card-body">
+          <div class="api-keys-container">
+            <div class="setting-group">
+              <label for="gemini-api-key">Gemini API Key:</label>
+              <div class="api-key-input">
+                <input type="password" id="gemini-api-key" class="text-input" placeholder="Enter your Gemini API key">
+                <button class="toggle-visibility-btn" data-for="gemini-api-key">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <p class="setting-description">
+                <a href="https://ai.google.dev/" target="_blank">Get a Gemini API key</a>
+              </p>
+              <button id="test-gemini-btn" class="action-button small-button">
+                <i class="fas fa-plug"></i> Test Gemini Connection
+              </button>
+              <div id="gemini-status" class="status-message"></div>
+            </div>
+            
+            <div class="setting-group">
+              <label for="openai-api-key">OpenAI API Key (for O3-mini and GPT-4o):</label>
+              <div class="api-key-input">
+                <input type="password" id="openai-api-key" class="text-input" placeholder="Enter your OpenAI API key">
+                <button class="toggle-visibility-btn" data-for="openai-api-key">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <p class="setting-description">
+                <a href="https://platform.openai.com/account/api-keys" target="_blank">Get an OpenAI API key</a> - Works for both O3-mini and GPT-4o models
+              </p>
+              <div class="test-buttons-row">
+                <button id="test-openai-btn" class="action-button small-button">
+                  <i class="fas fa-plug"></i> Test OpenAI Connection
+                </button>
+              </div>
+              <div id="openai-status" class="status-message"></div>
+            </div>
+            
+            <div class="setting-group">
+              <label for="mistral-api-key">Mistral API Key:</label>
+              <div class="api-key-input">
+                <input type="password" id="mistral-api-key" class="text-input" placeholder="Enter your Mistral API key">
+                <button class="toggle-visibility-btn" data-for="mistral-api-key">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <p class="setting-description">
+                <a href="https://console.mistral.ai/" target="_blank">Get a Mistral API key</a> - Used for Mistral Small model
+              </p>
+              <button id="test-mistral-btn" class="action-button small-button">
+                <i class="fas fa-plug"></i> Test Mistral Connection
+              </button>
+              <div id="mistral-status" class="status-message"></div>
+            </div>
+            
+            <div class="setting-group">
+              <label for="ollama-host">Ollama Host URL:</label>
+              <input type="text" id="ollama-host" class="text-input" placeholder="http://localhost:11434">
+              <p class="setting-description">
+                URL for your Ollama instance (e.g., http://localhost:11434)
+              </p>
+            </div>
+            
+            <div class="setting-group">
+              <label for="ollama-model">Ollama Model:</label>
+              <select id="ollama-model" class="select-input">
+                <option value="llama3">Llama 3</option>
+                <option value="llama3:8b">Llama 3 (8B)</option>
+                <option value="llama3:70b">Llama 3 (70B)</option>
+                <option value="mistral">Mistral</option>
+                <option value="mixtral">Mixtral</option>
+                <option value="phi">Phi</option>
+                <option value="custom">Custom Model</option>
+              </select>
+              <p class="setting-description">
+                Select which Ollama model to use
+              </p>
+            </div>
+            
+            <div id="ollama-custom-model-container" class="setting-group" style="display: none;">
+              <label for="ollama-custom-model">Custom Ollama Model Name:</label>
+              <input type="text" id="ollama-custom-model" class="text-input" placeholder="Enter model name (e.g., llama3:instruct)">
+              <p class="setting-description">
+                Enter the name of your custom Ollama model
+              </p>
+            </div>
+            
+            <div class="setting-group">
+              <button id="test-ollama-btn" class="action-button small-button">
+                <i class="fas fa-plug"></i> Test Ollama Connection
+              </button>
+              <div id="ollama-status" class="status-message"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="card">
+        <div class="card-header">
+          <i class="fas fa-shield-alt icon"></i>
+          <h2>Model Fallback Mechanism</h2>
+        </div>
+        <div class="card-body">
+          <div class="setting-group">
+            <div class="checkbox-container">
+              <input type="checkbox" id="enable-fallback" class="checkbox-input">
+              <label for="enable-fallback">Enable Model Fallback</label>
+            </div>
+            <p class="setting-description">
+              If enabled, the system will automatically try alternative models if the primary model fails
+            </p>
+          </div>
+          
+          <div id="fallback-models-container" class="setting-group" style="display: none;">
+            <h3>Fallback Order:</h3>
+            <p class="setting-description">
+              Models will be tried in the order listed below if the primary model fails
+            </p>
+            
+            <div class="fallback-model">
+              <label for="fallback-model-1">First Fallback:</label>
+              <select id="fallback-model-1" class="select-input fallback-model-select">
+                <option value="none">None</option>
+                <option value="gemini">Gemini Pro</option>
+                <option value="openai">OpenAI O3-mini</option>
+                <option value="gpt4o">OpenAI GPT-4o</option>
+                <option value="ollama">Ollama (Local LLM)</option>
+              </select>
+            </div>
+            
+            <div class="fallback-model">
+              <label for="fallback-model-2">Second Fallback:</label>
+              <select id="fallback-model-2" class="select-input fallback-model-select">
+                <option value="none">None</option>
+                <option value="gemini">Gemini Pro</option>
+                <option value="openai">OpenAI O3-mini</option>
+                <option value="gpt4o">OpenAI GPT-4o</option>
+                <option value="ollama">Ollama (Local LLM)</option>
+              </select>
+            </div>
+            
+            <div class="fallback-model">
+              <label for="fallback-model-3">Third Fallback:</label>
+              <select id="fallback-model-3" class="select-input fallback-model-select">
+                <option value="none">None</option>
+                <option value="gemini">Gemini Pro</option>
+                <option value="openai">OpenAI O3-mini</option>
+                <option value="gpt4o">OpenAI GPT-4o</option>
+                <option value="ollama">Ollama (Local LLM)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="card">
+        <div class="card-header">
+          <i class="fas fa-signature icon"></i>
+          <h2>Email Signature</h2>
+        </div>
+        <div class="card-body">
+          <div class="setting-group">
+            <label for="user-signature">Your Email Signature:</label>
+            <textarea id="user-signature" class="text-area" placeholder="Enter your email signature"></textarea>
+            <p class="setting-description">
+              This signature will be automatically added to all generated responses
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      <div class="actions-container">
+        <button id="save-btn" class="primary-button">
+          <i class="fas fa-save"></i> Save Settings
+        </button>
+        <div id="status-msg" class="status-message"></div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>SmartReply AI Extension &copy; 2025</p>
+    </div>
+  </div>
+  
+  <script src="options.js"></script>
+</body>
+</html>

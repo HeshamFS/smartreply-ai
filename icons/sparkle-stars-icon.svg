@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Transparent Background -->
+  <rect x="0" y="0" width="128" height="128" fill="none" />
+  
+  <!-- Large Star Center -->
+  <path d="M64 20 L72 56 L108 64 L72 72 L64 108 L56 72 L20 64 L56 56 Z" fill="#2196f3" />
+  
+  <!-- Medium Star Top Right -->
+  <path d="M90 30 L94 46 L110 50 L94 54 L90 70 L86 54 L70 50 L86 46 Z" fill="#0d47a1" />
+  
+  <!-- Small Star Bottom Left -->
+  <path d="M38 90 L40 78 L52 76 L40 74 L38 62 L36 74 L24 76 L36 78 Z" fill="#1565c0" />
+  
+  <!-- Tiny Star Top Left -->
+  <path d="M30 40 L31 34 L37 33 L31 32 L30 26 L29 32 L23 33 L29 34 Z" fill="#2196f3" />
+  
+  <!-- Tiny Star Bottom Right -->
+  <path d="M98 88 L99 82 L105 81 L99 80 L98 74 L97 80 L91 81 L97 82 Z" fill="#2196f3" />
+</svg>

@@ -1,0 +1,16 @@
+{
+  "name": "smartreply-ai",
+  "version": "1.2.0",
+  "description": "AI-powered email response generator with intelligent categorization and templates",
+  "scripts": {
+    "minify": "node minify.js",
+    "build": "npm install && npm run minify",
+    "package": "cd dist && zip -r ../smartreply-ai.zip *"
+  },
+  "dependencies": {
+    "clean-css": "^5.3.3",
+    "uglify-js": "^3.19.3"
+  },
+  "author": "",
+  "license": "MIT"
+}
